@@ -1,0 +1,129 @@
+# config_options.yml — describes the install form for DukuDukuChat.
+# Each field becomes one input on the install screen; its "name" is the
+# .env key written into the app's environment on install. Field names below
+# match server/.env.example exactly, so anything you set here is what the
+# app actually reads at startup.
+
+title: DukuDukuChat
+description: >
+  A social app — feed, stories, chats, short video, and a Pi wallet — with
+  sign-in via Pi Network, Google, and Apple. Fill in the settings below to
+  configure this install.
+output_file: .env
+
+fixed_values:
+  - name: UID
+    detect: uid            # auto-resolved (uid | gid)
+
+fields:
+  - name: NODE_ENV
+    label: Environment
+    type: select
+    default: production
+    options:
+      - value: production
+        label: Production
+      - value: development
+        label: Development (more verbose logging)
+
+  - name: PORT
+    label: Server port
+    type: number
+    default: 8080
+    required: false
+    help: Port the app listens on inside its container. Matches the Dockerfile/docker-compose.yml default (8080) — leave it unless you changed those too.
+
+  - name: JWT_SECRET
+    label: Session secret
+    type: password
+    required: true
+    help: >-
+      A long random string used to sign login sessions — anyone who has
+      this value could forge a session, so keep it private and don't reuse
+      one from another app. Generate one with:
+      node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+
+  - name: JWT_EXPIRES_IN
+    label: Session length
+    type: text
+    default: 30d
+    required: false
+    help: How long a login stays valid before requiring sign-in again (e.g. 30d, 12h).
+
+  - name: FRONTEND_ORIGIN
+    label: Allowed front-end origin(s)
+    type: text
+    required: false
+    help: >-
+      Comma-separated URL(s) allowed to call this app's API. Leave blank to
+      allow same-origin requests only — correct for most installs, since
+      this app serves its own login page from the same address.
+
+  - name: ALLOW_DEV_LOGIN
+    label: Enable dev/test login
+    type: select
+    default: "true"
+    options:
+      - value: "true"
+        label: "Yes — adds a demo login button (no real Pi/Google/Apple account needed)"
+      - value: "false"
+        label: "No — real sign-in only"
+    help: Turn this off once real Pi/Google/Apple credentials are set below. It's an intentional sign-in bypass meant only for trying the app out — never leave it on for a public install.
+
+  - name: PI_API_BASE
+    label: Pi Network API base
+    type: text
+    default: https://api.minepi.com
+    required: false
+    help: Only change this if Pi Network gives you a different endpoint (e.g. Testnet tooling).
+
+  - name: ENABLE_GOOGLE_LOGIN
+    label: Enable Google sign-in
+    type: select
+    default: "false"
+    options:
+      - value: "false"
+        label: "No"
+      - value: "true"
+        label: "Yes"
+
+  - name: GOOGLE_CLIENT_ID
+    label: Google OAuth Client ID
+    type: password
+    required: false
+    visible_if:
+      field: ENABLE_GOOGLE_LOGIN
+      in: ["true"]
+    help: From Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client ID.
+
+  - name: ENABLE_APPLE_LOGIN
+    label: Enable Apple sign-in
+    type: select
+    default: "false"
+    options:
+      - value: "false"
+        label: "No"
+      - value: "true"
+        label: "Yes"
+
+  - name: APPLE_CLIENT_ID
+    label: Apple Services ID
+    type: password
+    required: false
+    visible_if:
+      field: ENABLE_APPLE_LOGIN
+      in: ["true"]
+    help: The Services ID from the Apple Developer portal, configured for "Sign in with Apple".
+
+  - name: MAX_UPLOAD_BYTES
+    label: Max photo/video upload size (bytes)
+    type: number
+    default: 15728640
+    required: false
+    help: Default is 15MB (15728640 bytes).
+
+# Not included as a field: there is no single admin/app password in
+# DukuDukuChat. "Owner" (who can edit the centre action button) is a
+# per-user flag stored in the database, not an environment variable — so
+# unlike the APP_PASSWORD example this schema was based on, there's nothing
+# equivalent to add here.

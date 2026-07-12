@@ -1,0 +1,35 @@
+name: Publish Docker image
+
+# Builds the Dockerfile in this repo and pushes it to GitHub Container
+# Registry every time main changes, so docker-compose.yml always has a
+# fresh ghcr.io/sakhamnima/dukuduku-chat:latest image to pull — no local
+# Docker install needed on your end.
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}   # lets you also trigger a build manually from the Actions tab
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/sakhamnima/dukuduku-chat:latest

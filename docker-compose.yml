@@ -1,0 +1,23 @@
+# docker-compose.yml — defines the container Pi Desktop runs for DukuDukuChat.
+# Pi Desktop only supports a published remote image (no local "build:"), so
+# this points at a GitHub Container Registry image. The included
+# .github/workflows/docker-publish.yml builds and publishes that image
+# automatically every time you push to "main" — you don't need Docker
+# installed anywhere to produce it.
+#
+# env_file: .env picks up whatever the install form (config_options.yml)
+# wrote, so JWT_SECRET, ALLOW_DEV_LOGIN, etc. reach the container correctly.
+services:
+  web:
+    image: ghcr.io/sakhamnima/dukuduku-chat:latest
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:8080:8080'
+    env_file: .env
+    volumes:
+      - dukuduku_data:/app/data       # SQLite database — survives restarts/updates
+      - dukuduku_uploads:/app/uploads # user-uploaded photos/videos — survives restarts/updates
+
+volumes:
+  dukuduku_data:
+  dukuduku_uploads:
