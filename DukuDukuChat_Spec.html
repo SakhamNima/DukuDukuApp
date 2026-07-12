@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DukuDukuChat — App Specification &amp; Build Prompt</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238B6EFF'/%3E%3Cstop offset='.55' stop-color='%236C4FF5'/%3E%3Cstop offset='1' stop-color='%23FF5C7A'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF'/%3E%3Cstop offset='1' stop-color='%23F1EDFC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g1)'/%3E%3Cpath d='M256 118c74 0 132 50 132 114s-58 114-132 114c-16 0-32-2-46-6-14 26-38 44-68 52 16-20 24-40 22-56-24-20-40-60-40-104 0-64 58-114 132-114z' fill='url(%23g2)'/%3E%3Ccircle cx='212' cy='232' r='15' fill='%236C4FF5'/%3E%3Ccircle cx='300' cy='232' r='15' fill='%23FF5C7A'/%3E%3Cpath d='M208 258q48 34 96 0' stroke='%234B32C3' stroke-width='13' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='402' cy='150' r='17' fill='%23FFD24C' stroke='%23fff' stroke-width='5'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --primary:#6C4FF5;
+    --primary-dark:#4B32C3;
+    --accent:#FF5C7A;
+    --bg:#FBFAFE;
+    --card:#FFFFFF;
+    --text:#211C3D;
+    --muted:#665F8A;
+    --border:#E7E2F7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+  }
+  .hero{
+    background:radial-gradient(circle at 15% 20%, #7B5CFA, #4B32C3 55%, #241865);
+    color:#fff;
+    padding:64px 24px 54px;
+    text-align:center;
+  }
+  .hero .logo{
+    width:72px;height:72px;border-radius:20px;background:rgba(255,255,255,.15);
+    display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 18px;
+  }
+  .hero h1{font-size:34px;margin:0 0 8px;letter-spacing:.3px;}
+  .hero p{font-size:15px;opacity:.9;max-width:640px;margin:0 auto;}
+  .hero .badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
+  .hero .badges span{background:rgba(255,255,255,.15);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 24px 90px;}
+  .toc{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 26px;margin-bottom:40px;
+    box-shadow:0 4px 20px rgba(70,40,150,.05);
+  }
+  .toc h2{font-size:14px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:0 0 12px;}
+  .toc ol{margin:0;padding-left:20px;columns:2;column-gap:28px;font-size:13.5px;}
+  .toc li{margin-bottom:7px;break-inside:avoid;}
+  .toc a{color:var(--primary-dark);text-decoration:none;font-weight:600;}
+  .toc a:hover{text-decoration:underline;}
+  section{margin-bottom:46px;}
+  h2.section-title{
+    font-size:21px;color:var(--primary-dark);margin:0 0 6px;padding-bottom:10px;border-bottom:2px solid var(--border);
+    display:flex;align-items:center;gap:10px;
+  }
+  h2.section-title .num{
+    background:var(--primary);color:#fff;width:28px;height:28px;border-radius:8px;font-size:13px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  h3{font-size:15.5px;color:var(--text);margin:22px 0 10px;}
+  p{font-size:14px;color:#3A3560;margin:0 0 12px;}
+  .callout{
+    border-radius:14px;padding:16px 18px;margin:18px 0;font-size:13.5px;border-left:4px solid var(--primary);
+    background:#F1EDFC;
+  }
+  .callout.warn{border-left-color:#E0A100;background:#FFF7E0;}
+  .callout.warn b{color:#8A6200;}
+  .callout b{display:block;margin-bottom:4px;color:var(--primary-dark);}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{background:#F1EDFC;color:var(--primary-dark);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;}
+  tr:last-child td{border-bottom:none;}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+  .pill{background:#EDE9FB;color:var(--primary-dark);font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:20px;}
+  pre{
+    background:#1B1730;color:#E9E6FA;padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:12.5px;
+    line-height:1.55;margin:14px 0;
+  }
+  code{font-family:"SFMono-Regular",Consolas,Menlo,monospace;}
+  .code-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  ul.check{list-style:none;padding:0;margin:12px 0;}
+  ul.check li{padding-left:26px;position:relative;font-size:13.5px;margin-bottom:9px;color:#3A3560;}
+  ul.check li::before{content:'✓';position:absolute;left:0;top:0;color:#2ECC71;font-weight:800;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .mini-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;}
+  .mini-card h4{margin:0 0 6px;font-size:13.5px;color:var(--primary-dark);}
+  .mini-card p{margin:0;font-size:12.5px;color:var(--muted);}
+  .prompt-box{
+    background:#0F0C22;color:#D9D4F5;border-radius:16px;padding:24px 26px;font-size:12.8px;line-height:1.7;
+    white-space:pre-wrap;font-family:"SFMono-Regular",Consolas,Menlo,monospace;position:relative;
+    border:1px solid #2A2352;
+  }
+  .copy-btn{
+    position:sticky;top:12px;float:right;background:var(--primary);color:#fff;border:none;padding:8px 16px;
+    border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:10px;
+  }
+  .copy-btn:active{transform:scale(.97);}
+  footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);}
+  footer .foot-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;}
+  footer .foot-logo span{font-weight:800;color:var(--text);font-size:14px;}
+  @media(max-width:640px){.toc ol{columns:1;} .grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="dukuduku-logo" viewBox="0 0 512 512">
+      <linearGradient id="dd-bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8B6EFF"/>
+        <stop offset="0.55" stop-color="#6C4FF5"/>
+        <stop offset="1" stop-color="#FF5C7A"/>
+      </linearGradient>
+      <radialGradient id="dd-sheen" cx="0.28" cy="0.22" r="0.75">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="dd-bubble" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF"/>
+        <stop offset="1" stop-color="#F1EDFC"/>
+      </linearGradient>
+      <rect x="0" y="0" width="512" height="512" rx="128" fill="url(#dd-bg)"/>
+      <rect x="0" y="0" width="512" height="512" rx="128" fill="url(#dd-sheen)"/>
+      <path d="M 256 118 C 330 118 388 168 388 232 C 388 296 330 346 256 346 C 240 346 224 344 210 340 C 196 366 172 384 142 392 C 158 372 166 352 164 336 C 140 316 124 276 124 232 C 124 168 182 118 256 118 Z" fill="url(#dd-bubble)"/>
+      <ellipse cx="205" cy="168" rx="46" ry="18" fill="#ffffff" opacity="0.55" transform="rotate(-18 205 168)"/>
+      <circle cx="212" cy="232" r="15" fill="#6C4FF5"/>
+      <circle cx="300" cy="232" r="15" fill="#FF5C7A"/>
+      <path d="M 208 258 Q 256 292 304 258" stroke="#4B32C3" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <path d="M 336 92 A 62 62 0 0 1 402 150" stroke="#FFD24C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.9"/>
+      <circle cx="402" cy="150" r="17" fill="#FFD24C" stroke="#ffffff" stroke-width="5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="hero">
+  <div class="logo"><svg width="56" height="56"><use href="#dukuduku-logo"/></svg></div>
+  <h1>DukuDukuChat</h1>
+  <p>A social super-app concept spec &amp; build prompt — combining the best of Facebook, WeChat, TikTok, Telegram and Instagram, with sign-in via Pi Network, Google or Apple, and an owner-customisable action button. Prepared for Nima Drukchen, 11 July 2026.</p>
+  <div class="badges">
+    <span>🥧 Pi Network Login</span>
+    <span>🔵 Google Login</span>
+    <span>&#63743; Apple Login</span>
+    <span>🎛️ Owner-Customisable Button</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#overview">1. Overview &amp; concept</a></li>
+      <li><a href="#pi-notice">2. Important: Pi Network listing rule</a></li>
+      <li><a href="#matrix">3. Feature matrix — what each app does well</a></li>
+      <li><a href="#core">4. Core feature set for DukuDukuChat</a></li>
+      <li><a href="#login">5. Login &amp; identity (Pi / Google / Apple)</a></li>
+      <li><a href="#button">6. Owner-customisable action button</a></li>
+      <li><a href="#ia">7. Navigation &amp; information architecture</a></li>
+      <li><a href="#stack">8. Recommended tech stack</a></li>
+      <li><a href="#privacy">9. Privacy, safety &amp; moderation</a></li>
+      <li><a href="#checklist">10. Pi Developer Portal submission checklist</a></li>
+      <li><a href="#roadmap">11. Build roadmap (MVP → v2)</a></li>
+      <li><a href="#prompt">12. Copy-paste build prompt (for a developer or AI coding tool)</a></li>
+      <li><a href="#files">13. What you're getting in this package</a></li>
+    </ol>
+  </div>
+
+  <!-- 1 -->
+  <section id="overview">
+    <h2 class="section-title"><span class="num">1</span>Overview &amp; concept</h2>
+    <p><b>DukuDukuChat</b> is a single social app that merges a Facebook-style feed, WeChat-style all-in-one messaging and mini-programs, TikTok-style short video, Telegram-style channels and privacy, and Instagram-style visual stories — signed in through the Pi Network (with Google and Apple as alternate sign-in options), and built around the Pi cryptocurrency as its native tipping/payment layer. Its signature differentiator is a <b>single owner-configurable action button</b> at the centre of the navigation bar, letting the app's owner decide in real time what the app's core action is (post, video, live, QR-connect, broadcast, or payment) without shipping a new build.</p>
+    <div class="callout">
+      <b>Why a super-app fits the Pi ecosystem</b>
+      Pi Network's App Platform is built for apps that keep users transacting and engaging <i>inside</i> the Pi ecosystem rather than funnelling them elsewhere. A combined social + payments + mini-programs app is a natural fit, mirroring how WeChat became indispensable in its own ecosystem by combining chat, payments and mini-programs in one place.
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="pi-notice">
+    <h2 class="section-title"><span class="num">2</span>Important: Pi Network listing rule</h2>
+    <p>Before you build, there's one rule from Pi Network's own Mainnet Listing Requirements that directly affects your Google/Apple login request:</p>
+    <div class="callout warn">
+      <b>Pi apps must use Pi Authentication exclusively to be listed in the Pi App Directory.</b>
+      Pi's Mainnet Listing Requirements state apps must use Pi's authentication system exclusively, keep transactions in Pi, and avoid collecting unnecessary personal data. A version of the app that also offers Google and Apple login can still exist — but it would need to run as a <i>separate, non-Pi-branded web/mobile build</i> outside the Pi App Directory, since only the Pi Browser build can be listed and reviewed by Pi's team.
+    </div>
+    <p>The recommended approach used throughout this spec is a <b>dual-build strategy</b>:</p>
+    <table>
+      <tr><th>Build</th><th>Where it runs</th><th>Login options</th><th>Can be listed in Pi App Directory?</th></tr>
+      <tr><td><b>Pi Browser build</b></td><td>Inside the Pi Browser, using the Pi SDK</td><td>Pi Network only</td><td>Yes — this is the one you submit to the Pi Developer Portal</td></tr>
+      <tr><td><b>Standalone web/mobile build</b></td><td>Regular browsers, App Store, Play Store</td><td>Pi (via Pi SDK web login), Google, Apple</td><td>No — distributed independently; can still let Pi users log in with their Pi account</td></tr>
+    </table>
+    <p>This keeps your product vision (Pi + Google + Apple, one brand) intact while staying eligible for the official Pi listing you asked for.</p>
+  </section>
+
+  <!-- 3 -->
+  <section id="matrix">
+    <h2 class="section-title"><span class="num">3</span>Feature matrix — what each app does well</h2>
+    <p>Each source app's strongest, most-loved qualities, and how DukuDukuChat incorporates them:</p>
+    <table>
+      <tr><th>App</th><th>What it does best</th><th>How DukuDukuChat uses it</th></tr>
+      <tr><td><b>Facebook</b></td><td>News feed with friends/Pages, Groups, Events, reactions, Marketplace</td><td>Home Feed with algorithmic + chronological toggle, Groups, Events, reaction set (❤️😂😮 etc.), a Marketplace mini-app</td></tr>
+      <tr><td><b>WeChat</b></td><td>One app for chat + social feed (Moments) + payments + Mini Programs + Official Accounts + QR-code connect</td><td>Unified chat/feed/payments, a Mini-Apps marketplace, Official/Creator accounts, QR "Connect" to add friends or open a mini-app instantly</td></tr>
+      <tr><td><b>TikTok</b></td><td>Full-screen vertical short video, a strong "For You" discovery algorithm, easy in-app creation tools, sounds/effects, duet/stitch</td><td>A "Discover" vertical video feed, in-app camera with effects/sounds, remix (duet-style) tools</td></tr>
+      <tr><td><b>Telegram</b></td><td>Fast, reliable messaging, huge groups &amp; broadcast Channels, bots &amp; mini apps, end-to-end encrypted Secret Chats, cross-device cloud sync, generous file sharing</td><td>Channels for broadcasting, Bots &amp; Mini-Apps SDK, optional Secret Chats with E2E encryption, multi-device sync</td></tr>
+      <tr><td><b>Instagram</b></td><td>Visual-first profile grid, Stories &amp; Reels, DMs, Explore/discovery, filters &amp; AR effects, Close Friends</td><td>Stories row at the top of the Feed, visual profile grid, filters/AR in the camera, a "Close Friends"-style private story audience</td></tr>
+    </table>
+  </section>
+
+  <!-- 4 -->
+  <section id="core">
+    <h2 class="section-title"><span class="num">4</span>Core feature set for DukuDukuChat</h2>
+    <div class="grid2">
+      <div class="mini-card"><h4>📰 Feed</h4><p>Photos, text, video posts from friends, Pages, Groups and Channels you follow. Reactions, comments, shares.</p></div>
+      <div class="mini-card"><h4>⭕ Stories</h4><p>24-hour disappearing photo/video stories with a "Close Friends" private audience option, like Instagram/WeChat Moments.</p></div>
+      <div class="mini-card"><h4>🎬 Discover (short video)</h4><p>Full-screen vertical short-video feed with a For You algorithm, in-app creation, effects and remixing.</p></div>
+      <div class="mini-card"><h4>💬 Chats</h4><p>1:1 chat, groups (up to large sizes), broadcast Channels, optional end-to-end encrypted Secret Chats, multi-device sync.</p></div>
+      <div class="mini-card"><h4>🧩 Mini-Apps &amp; Bots</h4><p>A WeChat/Telegram-style marketplace of lightweight in-app programs — games, utilities, business tools — built by third-party developers.</p></div>
+      <div class="mini-card"><h4>💰 Pi Wallet &amp; Tips</h4><p>Native Pi cryptocurrency wallet for tipping creators, paying for goods in Marketplace, or splitting bills in group chats.</p></div>
+      <div class="mini-card"><h4>🏪 Marketplace</h4><p>Buy/sell listings between local users, Facebook-Marketplace style, settled in Pi.</p></div>
+      <div class="mini-card"><h4>👤 Profiles &amp; Pages</h4><p>Personal profiles (Instagram-style grid) plus Business/Creator Pages (Facebook/WeChat Official Account-style) with analytics.</p></div>
+      <div class="mini-card"><h4>🔒 Privacy Controls</h4><p>Per-post audience selection, Secret Chats, screenshot notices, blocking/reporting, minimal-data-by-default settings.</p></div>
+      <div class="mini-card"><h4>🎛️ Owner-Customisable Button</h4><p>See section 6 — the single control that lets the app owner change the app's primary action live.</p></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="login">
+    <h2 class="section-title"><span class="num">5</span>Login &amp; identity (Pi / Google / Apple)</h2>
+    <p>Users can create a DukuDukuChat account with any of three identity providers. Accounts can optionally be linked so the same profile is reachable from any provider.</p>
+
+    <h3>Pi Network sign-in (primary, required for the Pi Browser build)</h3>
+    <p>Uses the official Pi SDK. The app requests scopes, receives an access token, and the backend verifies that token server-side before creating a session.</p>
+    <div class="code-label">Client-side (inside Pi Browser)</div>
+<pre><code>// Load the Pi SDK script, then:
+const scopes = ['username', 'payments'];
+function onIncompletePaymentFound(payment) {
+  // handle any incomplete payment from a previous session
+  console.log('Incomplete payment found', payment);
+}
+
+Pi.authenticate(scopes, onIncompletePaymentFound)
+  .then((authResult) =&gt; {
+    // authResult.user.username, authResult.accessToken
+    return fetch('/api/auth/pi-verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ accessToken: authResult.accessToken })
+    });
+  })
+  .catch((err) =&gt; console.error('Pi auth failed', err));</code></pre>
+    <div class="code-label">Server-side verification</div>
+<pre><code>// Node/Express example
+app.post('/api/auth/pi-verify', async (req, res) =&gt; {
+  const { accessToken } = req.body;
+  const me = await fetch('https://api.minepi.com/v2/me', {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+  if (me.status !== 200) return res.status(401).send('Invalid Pi token');
+  const piUser = await me.json();
+  // create or fetch local user record keyed by piUser.uid, start session
+  res.json({ ok: true, user: piUser });
+});</code></pre>
+
+    <h3>Google sign-in (standalone build only)</h3>
+<pre><code>&lt;script src="https://accounts.google.com/gsi/client" async&gt;&lt;/script&gt;
+&lt;div id="g_id_onload"
+     data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+     data-callback="handleGoogleCredential"&gt;&lt;/div&gt;
+&lt;div class="g_id_signin" data-type="standard"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+function handleGoogleCredential(response) {
+  // response.credential is a signed JWT — verify it server-side
+  fetch('/api/auth/google-verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idToken: response.credential })
+  });
+}
+&lt;/script&gt;</code></pre>
+
+    <h3>Apple sign-in (standalone build only)</h3>
+<pre><code>AppleID.auth.init({
+  clientId: 'com.dukuduku.chat',
+  scope: 'name email',
+  redirectURI: 'https://app.dukuduku.chat/auth/apple/callback',
+  usePopup: true
+});
+
+document.getElementById('appleBtn').addEventListener('click', () =&gt; {
+  AppleID.auth.signIn().then((res) =&gt; {
+    // res.authorization.id_token — verify server-side against Apple's public keys
+    fetch('/api/auth/apple-verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken: res.authorization.id_token })
+    });
+  });
+});</code></pre>
+    <p style="font-size:12px;color:var(--muted);">Replace all placeholder client IDs/domains with your own once registered with Pi, Google Cloud Console, and Apple Developer respectively.</p>
+  </section>
+
+  <!-- 6 -->
+  <section id="button">
+    <h2 class="section-title"><span class="num">6</span>Owner-customisable action button</h2>
+    <p>A single, prominent centre-of-nav-bar button whose <b>icon, colour, label and tap-action</b> are controlled from an owner/admin settings screen — no app update required. This is the app's signature idea, inspired by how WeChat's "+", Telegram's compose button and TikTok's create button each anchor a different core habit.</p>
+    <h3>Example configuration schema</h3>
+<pre><code>{
+  "centerButton": {
+    "icon": "camera",              // icon id from the approved icon set
+    "color": "#FF5C7A",            // any brand hex colour
+    "label": "New Post",           // internal label, shown in the owner dashboard
+    "action": "create_post",       // one of the enum values below
+    "visibleTo": "all_users"       // all_users | verified_only | creators_only
+  }
+}
+
+// Allowed "action" values:
+// create_post        -&gt; Facebook-style text/photo post composer
+// record_video        -&gt; TikTok-style in-app camera for short video
+// start_story_or_live  -&gt; Instagram-style story/live capture
+// scan_qr_connect      -&gt; WeChat-style QR scanner to add friends / open mini-apps
+// new_channel_broadcast -&gt; Telegram-style channel post composer
+// open_pi_payment      -&gt; Launch the Pi Wallet send/tip flow
+// open_miniapps_menu   -&gt; Open the Mini-Apps marketplace</code></pre>
+    <p>The owner dashboard should let a non-technical admin pick an icon from a small approved set, a colour swatch, and an action from a dropdown — exactly as demonstrated in the attached clickable prototype (Profile → "Customise centre button"). Changes should be pushed to a remote config store (e.g. Firebase Remote Config, or a simple settings row in your database) and read by the client on app launch, so no app-store update is needed to change it.</p>
+  </section>
+
+  <!-- 7 -->
+  <section id="ia">
+    <h2 class="section-title"><span class="num">7</span>Navigation &amp; information architecture</h2>
+    <p>Bottom navigation bar, five destinations:</p>
+    <div class="pill-row">
+      <span class="pill">🏠 Feed</span>
+      <span class="pill">🎬 Discover (video)</span>
+      <span class="pill">🎛️ Owner-customisable button</span>
+      <span class="pill">💬 Chats</span>
+      <span class="pill">👤 Profile</span>
+    </div>
+    <p>Each tab is a stack: e.g. Chats → Chat Thread → Chat Info → Shared Media; Profile → Settings → Privacy / Linked Accounts / Wallet / Mini-Apps / Customise Button.</p>
+  </section>
+
+  <!-- 8 -->
+  <section id="stack">
+    <h2 class="section-title"><span class="num">8</span>Recommended tech stack</h2>
+    <table>
+      <tr><th>Layer</th><th>Recommendation</th><th>Why</th></tr>
+      <tr><td>Client (Pi Browser build)</td><td>Responsive web app (React or Vue) + Pi SDK</td><td>Pi Browser renders web apps; this is the required format for Pi App Directory listing</td></tr>
+      <tr><td>Client (standalone build)</td><td>React Native or Flutter, sharing components/design system with the web build</td><td>Ship to the App Store / Play Store with Google &amp; Apple login</td></tr>
+      <tr><td>Backend / API</td><td>Node.js (Express/Fastify) or similar, REST or GraphQL</td><td>Handles auth verification (Pi/Google/Apple), feed ranking, chat delivery</td></tr>
+      <tr><td>Real-time chat</td><td>WebSockets (Socket.IO) or a managed service (e.g. Pusher, Ably)</td><td>Instant delivery for chats/channels</td></tr>
+      <tr><td>Database</td><td>PostgreSQL (relational data) + Redis (sessions/cache)</td><td>Reliable, scalable, well-understood</td></tr>
+      <tr><td>Media storage</td><td>S3-compatible object storage + a CDN</td><td>Photos, stories, short videos</td></tr>
+      <tr><td>Push notifications</td><td>Firebase Cloud Messaging</td><td>Cross-platform notifications</td></tr>
+      <tr><td>Payments</td><td>Pi Platform Payments API (server-to-server) for the Pi build</td><td>Required for Pi-native tipping/marketplace transactions</td></tr>
+    </table>
+  </section>
+
+  <!-- 9 -->
+  <section id="privacy">
+    <h2 class="section-title"><span class="num">9</span>Privacy, safety &amp; moderation</h2>
+    <ul class="check">
+      <li>Collect only what's needed to run the app — Pi's listing rules specifically flag minimal data collection.</li>
+      <li>Give every post and story an audience selector (Public / Friends / Close Friends / Only Me).</li>
+      <li>Offer optional end-to-end encrypted Secret Chats for sensitive conversations (Telegram-style).</li>
+      <li>Build in blocking, muting and a simple in-app reporting flow from day one — not as a later add-on.</li>
+      <li>Add basic automated content moderation (image/video/text classifiers) before public launch, plus a human review queue.</li>
+      <li>Publish a plain-language privacy policy and terms of service — both are required for Pi Developer Portal review.</li>
+    </ul>
+  </section>
+
+  <!-- 10 -->
+  <section id="checklist">
+    <h2 class="section-title"><span class="num">10</span>Pi Developer Portal submission checklist</h2>
+    <p>Compiled from Pi Network's public developer documentation. Treat this as your pre-submission gate:</p>
+    <ul class="check">
+      <li>Verify your email on your Pi profile, then register the app in the <a href="https://pi-apps.github.io/community-developer-guide/docs/gettingStarted/devPortal/" target="_blank" rel="noopener">Pi Developer Portal</a> with its name, description and network (start on Testnet).</li>
+      <li>Build and fully test the Testnet version first; only create the Mainnet app entry once it's stable.</li>
+      <li>Host the app at an HTTPS production URL, and verify domain ownership with Pi's required verification file at the domain root.</li>
+      <li>The app's domain must <b>not</b> start with "pi", and must not misuse Pi's logo, colours or branding.</li>
+      <li>The Pi Browser build must use <b>Pi Authentication exclusively</b> — no Google/Apple login inside that build (see section 2).</li>
+      <li>Any in-app financial transactions in the Pi build must be settled in Pi only.</li>
+      <li>Complete KYC verification as the developer before submitting for Mainnet review.</li>
+      <li>Make sure every interactive element works — reviewers reject apps that feel unfinished or broken.</li>
+      <li>Minimise personal data collection and publish a privacy policy.</li>
+      <li>Avoid the app functioning mainly as a funnel out to an external website — keep the core experience inside DukuDukuChat.</li>
+    </ul>
+    <p style="font-size:12px;color:var(--muted);">Source: Pi Community Developer Guide — Developer Portal, Mainnet Listing Requirements, and Authentication pages (pi-apps.github.io/community-developer-guide, github.com/pi-apps/pi-platform-docs). Requirements can change — re-check the live docs before submitting.</p>
+  </section>
+
+  <!-- 11 -->
+  <section id="roadmap">
+    <h2 class="section-title"><span class="num">11</span>Build roadmap (MVP → v2)</h2>
+    <table>
+      <tr><th>Phase</th><th>Scope</th></tr>
+      <tr><td><b>MVP (Testnet)</b></td><td>Pi login, basic profile, Feed (text/photo posts), 1:1 + group Chats, the customisable centre button (2–3 actions), Testnet Pi tipping.</td></tr>
+      <tr><td><b>v1 (Mainnet submission)</b></td><td>Add Stories, Channels, Secret Chats, Marketplace, moderation tools, full privacy controls, Mainnet Pi payments, KYC complete.</td></tr>
+      <tr><td><b>v2</b></td><td>Discover short-video feed, Mini-Apps/Bots SDK for third-party developers, Business/Creator Pages with analytics, standalone Google/Apple-login build for non-Pi users.</td></tr>
+    </table>
+  </section>
+
+  <!-- 12 -->
+  <section id="prompt">
+    <h2 class="section-title"><span class="num">12</span>Copy-paste build prompt</h2>
+    <p>Paste the block below into an AI coding assistant, or hand it to a developer, as a starting brief:</p>
+    <div class="prompt-box" id="promptText">Build a mobile-first social super-app called "DukuDukuChat".
+
+GOAL
+Combine the best qualities of Facebook, WeChat, TikTok, Telegram and Instagram into one cohesive app, with sign-in via Pi Network (primary, required for Pi Browser/Pi App Directory), and Google + Apple sign-in for a separate standalone build.
+
+CORE FEATURES
+1. Feed — friend/Page/Group posts, reactions, comments, shares (Facebook-style).
+2. Stories — 24h photo/video stories with a private "Close Friends" audience option (Instagram-style).
+3. Discover — full-screen vertical short-video feed with in-app camera, effects and a "for you" ranking (TikTok-style).
+4. Chats — 1:1, groups, and broadcast Channels, with an optional end-to-end encrypted Secret Chat mode and multi-device sync (Telegram/WeChat-style).
+5. Mini-Apps & Bots — a marketplace of lightweight third-party mini-programs (WeChat/Telegram-style).
+6. Pi Wallet — native Pi cryptocurrency tipping, payments and a peer-to-peer Marketplace.
+7. Profiles & Pages — personal profile grid (Instagram-style) plus Business/Creator Pages with basic analytics (Facebook/WeChat-style).
+8. Owner-customisable centre action button — an admin-configurable bottom-nav button whose icon, colour, label and tap-action (new post / record video / start story / QR-connect / new channel post / Pi payment / open mini-apps) are editable from an owner dashboard without an app update.
+
+LOGIN
+- Pi Browser build: Pi Network SDK only (Pi.authenticate with 'username' and 'payments' scopes; verify the access token server-side against https://api.minepi.com/v2/me before creating a session). No other login method in this build, per Pi's Mainnet Listing Requirements.
+- Standalone build (separate app/site, not submitted to the Pi App Directory): offer Pi (web), Google, and Sign in with Apple, each verified server-side, with optional account linking to one user profile.
+
+NAVIGATION
+Five-tab bottom bar: Feed, Discover, [customisable centre button], Chats, Profile.
+
+PRIVACY & SAFETY
+Per-post audience controls, blocking/muting/reporting from day one, minimal data collection, a public privacy policy, and basic automated + human content moderation before public launch.
+
+TECH
+Responsive React (or Vue) web app for the Pi Browser build; React Native or Flutter for the standalone build sharing the same design system; Node.js backend with REST/GraphQL API; WebSockets for real-time chat; PostgreSQL + Redis; S3-compatible storage + CDN for media; Firebase Cloud Messaging for push; Pi Platform Payments API for Pi transactions.
+
+DELIVERABLE
+Start with a Testnet MVP: Pi login, profile, text/photo Feed, 1:1 and group Chats, and the customisable centre button with 2-3 working actions. Then layer in Stories, Channels, Secret Chats, Marketplace and Mainnet payments before submitting to the Pi Developer Portal for review.</div>
+  </section>
+
+  <!-- 13 -->
+  <section id="files">
+    <h2 class="section-title"><span class="num">13</span>What you're getting in this package</h2>
+    <ul class="check">
+      <li><b>DukuDukuChat_Spec.html</b> — this document: the full concept, feature matrix, login code, button schema, tech stack, Pi checklist, roadmap and the copy-paste build prompt.</li>
+      <li><b>DukuDukuChat_Prototype.html</b> — a lightweight clickable mockup (open it in any browser): every screen is there to look at, but taps mostly show a demo toast rather than doing real work.</li>
+      <li><b>DukuDukuChat_App.html</b> — the front-end-only workable demo: real interactions, but everything lives in browser memory and resets on reload. No backend.</li>
+      <li><b>DukuDukuChat_Logo.html</b> — the brand sheet: the logo mark at every size, the wordmark lockup, the colour palette, and copyable SVG source for app-icon and favicon exports.</li>
+      <li><b>DukuDukuChat_Web.html</b> + <b>server/</b> (a real Node.js backend) — the genuinely connected version: this HTML talks to a real Express server over REST and Socket.IO, which does real server-side verification of Pi/Google/Apple tokens, stores everything in SQLite, and pushes chat messages and notifications live. See <code>server/README.md</code> for setup and deployment.</li>
+    </ul>
+    <div class="callout warn">
+      <b>What's real now vs. what still needs you</b>
+      DukuDukuChat_Web.html + server/ is real, working full-stack code — not a simulation. What it can't do on its own: run itself (you need to <code>npm install</code> and start it, or deploy it somewhere with a real HTTPS URL), authenticate with real Pi/Google/Apple credentials (you need to register with each provider and configure their client IDs), or get KYC-verified and listed in the Pi App Directory (that step is tied to your personal identity and has to be done by you through the Pi Developer Portal). DukuDukuChat_App.html remains a simpler, backend-free way to demo the idea without running a server at all.
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-logo"><svg width="22" height="22"><use href="#dukuduku-logo"/></svg><span>DukuDukuChat</span></div>
+    Prepared for Nima Drukchen · 11 July 2026 · DukuDukuChat concept package
+  </footer>
+</div>
+
+</body>
+</html>

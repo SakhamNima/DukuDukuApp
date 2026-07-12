@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DukuDukuChat — Logo &amp; Brand Sheet</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238B6EFF'/%3E%3Cstop offset='.55' stop-color='%236C4FF5'/%3E%3Cstop offset='1' stop-color='%23FF5C7A'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF'/%3E%3Cstop offset='1' stop-color='%23F1EDFC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23g1)'/%3E%3Cpath d='M256 118c74 0 132 50 132 114s-58 114-132 114c-16 0-32-2-46-6-14 26-38 44-68 52 16-20 24-40 22-56-24-20-40-60-40-104 0-64 58-114 132-114z' fill='url(%23g2)'/%3E%3Ccircle cx='212' cy='232' r='15' fill='%236C4FF5'/%3E%3Ccircle cx='300' cy='232' r='15' fill='%23FF5C7A'/%3E%3Cpath d='M208 258q48 34 96 0' stroke='%234B32C3' stroke-width='13' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='402' cy='150' r='17' fill='%23FFD24C' stroke='%23fff' stroke-width='5'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --primary:#6C4FF5; --primary-dark:#4B32C3; --accent:#FF5C7A; --gold:#FFD24C;
+    --bg:#FBFAFE; --card:#FFFFFF; --text:#211C3D; --muted:#665F8A; --border:#E7E2F7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;}
+  .hero{background:radial-gradient(circle at 15% 20%, #7B5CFA, #4B32C3 55%, #241865);color:#fff;padding:64px 24px 50px;text-align:center;}
+  .hero svg{filter:drop-shadow(0 14px 30px rgba(0,0,0,.3));}
+  .hero h1{font-size:30px;margin:18px 0 6px;}
+  .hero p{font-size:14px;opacity:.85;max-width:520px;margin:0 auto;}
+  .wrap{max-width:960px;margin:0 auto;padding:44px 24px 90px;}
+  section{margin-bottom:50px;}
+  h2.section-title{font-size:19px;color:var(--primary-dark);margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid var(--border);}
+  p.lead{font-size:13.5px;color:var(--muted);margin:-8px 0 20px;}
+
+  .row{display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+  .tile{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(70,40,150,.05);}
+  .tile.dark{background:#161229;border-color:#2A2352;}
+  .tile span{font-size:11px;color:var(--muted);font-weight:600;}
+  .tile.dark span{color:#A79BD9;}
+
+  .lockup{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 28px;box-shadow:0 4px 20px rgba(70,40,150,.05);}
+  .lockup.dark{background:#161229;border-color:#2A2352;}
+  .lockup .word{font-size:28px;font-weight:800;color:var(--text);}
+  .lockup.dark .word{color:#fff;}
+  .lockup .word b{color:var(--accent);}
+  .lockup .tag{font-size:11.5px;color:var(--muted);margin-top:2px;}
+
+  .favicon-row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 22px;box-shadow:0 4px 20px rgba(70,40,150,.05);}
+  .fake-tab{display:flex;align-items:center;gap:8px;background:#EDEBF5;border-radius:10px 10px 0 0;padding:8px 16px;font-size:12px;color:var(--text);}
+
+  .palette{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;}
+  .swatch{border-radius:14px;padding:16px;color:#fff;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);}
+  .swatch b{display:block;font-size:14px;margin-bottom:2px;}
+  .swatch.light{color:#3A3560;}
+
+  .meaning-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .meaning-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;}
+  .meaning-card .ico{font-size:22px;margin-bottom:8px;}
+  .meaning-card h4{margin:0 0 6px;font-size:13.5px;color:var(--primary-dark);}
+  .meaning-card p{margin:0;font-size:12.5px;color:var(--muted);}
+
+  .dos-donts{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .dd-card{border-radius:16px;padding:18px 20px;}
+  .dd-card.do{background:#EAFAF0;border:1px solid #CDEFDB;}
+  .dd-card.dont{background:#FDEAEA;border:1px solid #F6D0D0;}
+  .dd-card h4{margin:0 0 10px;font-size:13px;}
+  .dd-card.do h4{color:#1B8F4C;}
+  .dd-card.dont h4{color:#C23838;}
+  .dd-card ul{margin:0;padding-left:18px;font-size:12.5px;color:#3A3560;}
+  .dd-card li{margin-bottom:6px;}
+  .dont-preview{display:flex;align-items:center;gap:14px;margin-top:10px;}
+  .dont-preview svg{opacity:.9;}
+
+  .code-wrap{position:relative;}
+  .copy-btn{position:absolute;top:12px;right:12px;background:var(--primary);color:#fff;border:none;padding:7px 14px;border-radius:16px;font-size:11.5px;font-weight:700;cursor:pointer;}
+  .copy-btn:active{transform:scale(.96);}
+  pre{background:#0F0C22;color:#D9D4F5;padding:18px 20px;border-radius:14px;overflow-x:auto;font-size:11.8px;line-height:1.6;margin:0;border:1px solid #2A2352;}
+  code{font-family:"SFMono-Regular",Consolas,Menlo,monospace;}
+  .callout{background:#F1EDFC;border-left:4px solid var(--primary);border-radius:12px;padding:14px 18px;font-size:13px;margin-top:16px;}
+  .callout b{display:block;color:var(--primary-dark);margin-bottom:4px;}
+  footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);}
+  @media(max-width:640px){.dos-donts{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="dukuduku-logo" viewBox="0 0 512 512">
+      <linearGradient id="dd-bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8B6EFF"/>
+        <stop offset="0.55" stop-color="#6C4FF5"/>
+        <stop offset="1" stop-color="#FF5C7A"/>
+      </linearGradient>
+      <radialGradient id="dd-sheen" cx="0.28" cy="0.22" r="0.75">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="dd-bubble" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF"/>
+        <stop offset="1" stop-color="#F1EDFC"/>
+      </linearGradient>
+      <rect x="0" y="0" width="512" height="512" rx="128" fill="url(#dd-bg)"/>
+      <rect x="0" y="0" width="512" height="512" rx="128" fill="url(#dd-sheen)"/>
+      <path d="M 256 118 C 330 118 388 168 388 232 C 388 296 330 346 256 346 C 240 346 224 344 210 340 C 196 366 172 384 142 392 C 158 372 166 352 164 336 C 140 316 124 276 124 232 C 124 168 182 118 256 118 Z" fill="url(#dd-bubble)"/>
+      <ellipse cx="205" cy="168" rx="46" ry="18" fill="#ffffff" opacity="0.55" transform="rotate(-18 205 168)"/>
+      <circle cx="212" cy="232" r="15" fill="#6C4FF5"/>
+      <circle cx="300" cy="232" r="15" fill="#FF5C7A"/>
+      <path d="M 208 258 Q 256 292 304 258" stroke="#4B32C3" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <path d="M 336 92 A 62 62 0 0 1 402 150" stroke="#FFD24C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.9"/>
+      <circle cx="402" cy="150" r="17" fill="#FFD24C" stroke="#ffffff" stroke-width="5"/>
+    </symbol>
+    <!-- flattened, monochrome outline used only in the "don't" example -->
+    <symbol id="dukuduku-logo-flat" viewBox="0 0 512 512">
+      <rect x="0" y="0" width="512" height="512" rx="128" fill="#DCDCE4"/>
+      <path d="M 256 118 C 330 118 388 168 388 232 C 388 296 330 346 256 346 C 240 346 224 344 210 340 C 196 366 172 384 142 392 C 158 372 166 352 164 336 C 140 316 124 276 124 232 C 124 168 182 118 256 118 Z" fill="#ffffff"/>
+      <circle cx="212" cy="232" r="15" fill="#9A94B8"/>
+      <circle cx="300" cy="232" r="15" fill="#9A94B8"/>
+      <path d="M 208 258 Q 256 292 304 258" stroke="#9A94B8" stroke-width="13" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="hero">
+  <svg width="96" height="96"><use href="#dukuduku-logo"/></svg>
+  <h1>DukuDukuChat — Logo &amp; Brand Sheet</h1>
+  <p>A friendly, glowing chat‑bubble mark for a super‑app that brings feed, stories, chat, channels and short video into one place — with a small gold node nodding to its home on the Pi Network.</p>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <h2 class="section-title">The mark</h2>
+    <p class="lead">A smiling speech‑bubble on a warm violet‑to‑coral gradient — approachable, instantly a "chat/social" icon at any size, with one gold accent tying it to Pi.</p>
+    <div class="row">
+      <div class="tile"><svg width="180" height="180"><use href="#dukuduku-logo"/></svg><span>180 × 180 — hero / marketing</span></div>
+      <div class="tile"><svg width="120" height="120"><use href="#dukuduku-logo"/></svg><span>120 × 120 — app store icon</span></div>
+      <div class="tile"><svg width="72" height="72"><use href="#dukuduku-logo"/></svg><span>72 × 72 — settings / cards</span></div>
+      <div class="tile"><svg width="40" height="40"><use href="#dukuduku-logo"/></svg><span>40 × 40 — nav bar</span></div>
+      <div class="tile"><svg width="24" height="24"><use href="#dukuduku-logo"/></svg><span>24 × 24 — favicon</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">On light &amp; dark</h2>
+    <p class="lead">The gradient badge holds its contrast on both light UI surfaces and the dark video/discover screens.</p>
+    <div class="row">
+      <div class="tile"><svg width="110" height="110"><use href="#dukuduku-logo"/></svg><span>On white</span></div>
+      <div class="tile dark"><svg width="110" height="110"><use href="#dukuduku-logo"/></svg><span>On near‑black</span></div>
+      <div class="tile" style="background:linear-gradient(135deg,#EDE9FB,#FDEFF2);"><svg width="110" height="110"><use href="#dukuduku-logo"/></svg><span>On brand tint</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Wordmark lockup</h2>
+    <p class="lead">Icon + name, for headers, splash screens and the Pi Developer Portal listing page.</p>
+    <div class="row">
+      <div class="lockup">
+        <svg width="52" height="52"><use href="#dukuduku-logo"/></svg>
+        <div>
+          <div class="word">Duku<b>Duku</b>Chat</div>
+          <div class="tag">One app. Every way you connect.</div>
+        </div>
+      </div>
+      <div class="lockup dark">
+        <svg width="52" height="52"><use href="#dukuduku-logo"/></svg>
+        <div>
+          <div class="word">Duku<b>Duku</b>Chat</div>
+          <div class="tag" style="color:#A79BD9;">One app. Every way you connect.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Favicon &amp; browser tab</h2>
+    <p class="lead">Both DukuDukuChat_Spec.html and DukuDukuChat_Prototype.html already use this mark as their favicon — try opening them in a new tab.</p>
+    <div class="favicon-row">
+      <div class="fake-tab"><svg width="16" height="16"><use href="#dukuduku-logo"/></svg> DukuDukuChat — Interactive Prototype</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">What the mark means</h2>
+    <div class="meaning-grid">
+      <div class="meaning-card"><div class="ico">💬</div><h4>The bubble</h4><p>A single speech bubble stands in for every conversation format the app carries — feed post, story, chat, channel broadcast or video caption.</p></div>
+      <div class="meaning-card"><div class="ico">😊</div><h4>The face</h4><p>Two dots and a smile keep it warm and human — a super‑app built around real relationships, not just features.</p></div>
+      <div class="meaning-card"><div class="ico">🟡</div><h4>The gold node</h4><p>A small orbiting dot marks DukuDukuChat's home on the Pi Network — connected, without borrowing Pi's own logo or colours.</p></div>
+      <div class="meaning-card"><div class="ico">🎨</div><h4>The gradient</h4><p>Violet‑to‑coral matches the app's existing UI (login screen, buttons, accents) so the mark and the product feel like one system.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Colour palette</h2>
+    <div class="palette">
+      <div class="swatch" style="background:#6C4FF5;"><b>Primary</b>#6C4FF5</div>
+      <div class="swatch" style="background:#4B32C3;"><b>Primary Dark</b>#4B32C3</div>
+      <div class="swatch" style="background:#FF5C7A;"><b>Accent</b>#FF5C7A</div>
+      <div class="swatch light" style="background:#FFD24C;"><b>Gold (Pi node)</b>#FFD24C</div>
+      <div class="swatch light" style="background:#F1EDFC;"><b>Tint / Surface</b>#F1EDFC</div>
+      <div class="swatch" style="background:#1B1730;"><b>Ink</b>#1B1730</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Do / don't</h2>
+    <div class="dos-donts">
+      <div class="dd-card do">
+        <h4>✓ Do</h4>
+        <ul>
+          <li>Keep the full gradient badge intact — don't flatten it to one colour.</li>
+          <li>Give it breathing room — at least a quarter of the icon's width as clear space.</li>
+          <li>Use the wordmark lockup for headers; the icon alone for nav bars, favicons and app icons.</li>
+        </ul>
+      </div>
+      <div class="dd-card dont">
+        <h4>✕ Don't</h4>
+        <ul>
+          <li>Don't recolour it, stretch it, or rotate it.</li>
+          <li>Don't place it on busy photo backgrounds without a solid tile behind it.</li>
+          <li>Don't combine it with Pi Network's own logo or mark — DukuDukuChat is <i>on</i> Pi, not <i>of</i> Pi.</li>
+        </ul>
+        <div class="dont-preview">
+          <svg width="56" height="56"><use href="#dukuduku-logo-flat"/></svg>
+          <span style="font-size:11.5px;color:var(--muted);">flattened / greyed‑out — avoid</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">SVG source (copy this)</h2>
+    <p class="lead">Paste this into any HTML file to reuse the exact mark, or paste the source into an SVG‑to‑PNG converter to export app‑icon or favicon files for the Pi Developer Portal.</p>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyLogoCode()">Copy SVG</button>
+      <pre id="logoSource"><code>&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;defs&gt;
+    &lt;linearGradient id="dd-bg" x1="0" y1="0" x2="1" y2="1"&gt;
+      &lt;stop offset="0" stop-color="#8B6EFF"/&gt;
+      &lt;stop offset="0.55" stop-color="#6C4FF5"/&gt;
+      &lt;stop offset="1" stop-color="#FF5C7A"/&gt;
+    &lt;/linearGradient&gt;
+    &lt;radialGradient id="dd-sheen" cx="0.28" cy="0.22" r="0.75"&gt;
+      &lt;stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/&gt;
+      &lt;stop offset="1" stop-color="#ffffff" stop-opacity="0"/&gt;
+    &lt;/radialGradient&gt;
+    &lt;linearGradient id="dd-bubble" x1="0" y1="0" x2="0" y2="1"&gt;
+      &lt;stop offset="0" stop-color="#FFFFFF"/&gt;
+      &lt;stop offset="1" stop-color="#F1EDFC"/&gt;
+    &lt;/linearGradient&gt;
+  &lt;/defs&gt;
+  &lt;rect x="0" y="0" width="512" height="512" rx="128" fill="url(#dd-bg)"/&gt;
+  &lt;rect x="0" y="0" width="512" height="512" rx="128" fill="url(#dd-sheen)"/&gt;
+  &lt;path d="M 256 118 C 330 118 388 168 388 232 C 388 296 330 346 256 346 C 240 346 224 344 210 340 C 196 366 172 384 142 392 C 158 372 166 352 164 336 C 140 316 124 276 124 232 C 124 168 182 118 256 118 Z" fill="url(#dd-bubble)"/&gt;
+  &lt;ellipse cx="205" cy="168" rx="46" ry="18" fill="#ffffff" opacity="0.55" transform="rotate(-18 205 168)"/&gt;
+  &lt;circle cx="212" cy="232" r="15" fill="#6C4FF5"/&gt;
+  &lt;circle cx="300" cy="232" r="15" fill="#FF5C7A"/&gt;
+  &lt;path d="M 208 258 Q 256 292 304 258" stroke="#4B32C3" stroke-width="13" fill="none" stroke-linecap="round"/&gt;
+  &lt;path d="M 336 92 A 62 62 0 0 1 402 150" stroke="#FFD24C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.9"/&gt;
+  &lt;circle cx="402" cy="150" r="17" fill="#FFD24C" stroke="#ffffff" stroke-width="5"/&gt;
+&lt;/svg&gt;</code></pre>
+    </div>
+    <div class="callout">
+      <b>Exporting a real app icon / favicon file</b>
+      Copy the SVG above into a plain .svg file (works as-is for the Pi Developer Portal's SVG upload fields), or paste it into a free SVG→PNG tool to export the 1024×1024 PNG most app stores and portals ask for. Keep the rx="128" corner radius, or let the store apply its own mask — most platforms round the icon automatically.
+    </div>
+  </section>
+
+  <footer>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;">
+      <svg width="20" height="20"><use href="#dukuduku-logo"/></svg>
+      <span style="font-weight:800;">DukuDukuChat</span>
+    </div>
+    Prepared for Nima Drukchen · 11 July 2026 · Logo &amp; brand sheet
+  </footer>
+</div>
+
+<script>
+function copyLogoCode(){
+  const text = document.getElementById('logoSource').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(()=>btn.textContent = old, 1600);
+  }).catch(()=>{});
+}
+</script>
+
+</body>
+</html>
