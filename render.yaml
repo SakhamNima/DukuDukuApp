@@ -1,0 +1,19 @@
+# Exported from Render on 2026-07-12T13:28:30Z
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: dukuduku-chat-backend1
+      runtime: python
+      repo: https://github.com/sakhamnima/dukuduku-chat-backend1
+      plan: free
+      region: singapore
+      buildCommand: pip install -r requirements.txt
+      startCommand: gunicorn your_application.wsgi
+      autoDeployTrigger: commit
+      rootDir: src
+      previews:
+        generation: automatic
