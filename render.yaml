@@ -6,13 +6,13 @@ projects:
   - name: Production
     services:
     - type: web
-      name: dukuduku-chat-backend1
-      runtime: python
-      repo: https://github.com/sakhamnima/dukuduku-chat-backend1
+      name: dukuduku-app
+      runtime: node
+      repo: https://github.com/sakhamnima/dukuduku-app
       plan: free
       region: singapore
-      buildCommand: pip install -r requirements.txt
-      startCommand: gunicorn your_application.wsgi
+      buildCommand: npm install
+      startCommand: npm start
       autoDeployTrigger: commit
       rootDir: src
       previews:
