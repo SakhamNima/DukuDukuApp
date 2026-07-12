@@ -6,9 +6,9 @@ projects:
   - name: Production
     services:
     - type: web
-      name: dukuduku-app
+      name: dukudukuapp
       runtime: node
-      repo: https://github.com/sakhamnima/dukuduku-app
+      repo: https://github.com/sakhamnima/dukudukuapp
       plan: free
       region: singapore
       buildCommand: npm install
