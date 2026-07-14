@@ -153,6 +153,37 @@ Since I couldn't run this myself, here's exactly where I'd look first:
    URL (scheme + host + port), and the front-end's `fetch()` calls need
    `credentials: 'include'` or the session cookie won't be sent.
 
+## AI assistant layer
+
+The app now ships with an integrated AI layer covering smart reply
+suggestions, message rewriting (professional/friendly/concise), grammar &amp;
+spelling correction, real-time translation, an in-app "Duku AI" chat
+assistant, conversation summarization, voice-to-text/text-to-voice, and
+AI-generated captions/emoji/stickers.
+
+- **Zero setup required.** `src/ai/engine.js` implements a fast, dependency-free
+  local heuristic engine, so every AI feature works immediately with no API
+  key, no external network call, and no cost.
+- **Optional real LLM upgrade.** Set `AI_PROVIDER=openai` or `AI_PROVIDER=anthropic`
+  in `.env` plus the matching API key (`OPENAI_API_KEY` / `ANTHROPIC_API_KEY`)
+  to route these features through a real model. If that call ever fails,
+  times out, or isn't configured, the server automatically falls back to the
+  local engine — the feature never breaks.
+- Voice-to-text and text-to-voice run entirely client-side via the browser's
+  Web Speech API (no server round-trip, no key needed); support varies by
+  browser.
+- All AI endpoints live under `/api/ai/*` and are rate-limited per user.
+
+## New look: premium orange/gold theme + AI-ready UI
+
+The front end (`public/index.html`) has been redesigned mobile-first with a
+premium orange (#FF8C00) / golden-yellow (#FFC107) gradient theme, an
+optional dark mode (amber-on-charcoal), glassmorphism cards, safe-area
+support for notched phones, and smooth screen/modal animations — while
+preserving every original feature and the same single-file, no-build-step
+architecture. All existing REST/Socket.IO functionality is unchanged; only
+the presentation layer and the new `/api/ai/*` routes were added.
+
 ## API overview
 
 All endpoints are under `/api`. Authenticated routes read a session from an
@@ -173,6 +204,12 @@ httpOnly cookie (or `Authorization: Bearer <token>` for non-browser testing).
 - `GET/PUT /api/center-button` (PUT is owner-only)
 - `GET/POST /api/polls`, `POST /api/polls/:id/vote`
 - `PUT /api/profile`, `POST /api/profile/require-passcode`
+- `GET /api/ai/status` → whether a real AI provider is configured
+- `POST /api/ai/smart-replies` `{text}`, `POST /api/ai/rewrite` `{text,tone}`,
+  `POST /api/ai/grammar` `{text}`, `POST /api/ai/translate` `{text,target}`,
+  `POST /api/ai/summarize` `{chatId}`, `POST /api/ai/assistant` `{message,history}`,
+  `POST /api/ai/captions` `{text}`, `POST /api/ai/emoji` `{text}`,
+  `POST /api/ai/stickers` `{text}`
 
 Realtime: connect Socket.IO with the session cookie attached, then emit
 `chat:join`/`chat:leave` with a chat id to receive that chat's `message`

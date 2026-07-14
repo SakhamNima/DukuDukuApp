@@ -25,6 +25,7 @@ const { router: notificationsRouter, attachIo: attachNotifIo } = require('./rout
 const centerButtonRouter = require('./routes/centerButton');
 const pollsRouter = require('./routes/polls');
 const profileRouter = require('./routes/profile');
+const aiRouter = require('./routes/ai');
 const { UPLOAD_DIR } = require('./upload');
 
 const app = express();
@@ -63,6 +64,7 @@ app.use('/api/notifications', notificationsRouter);
 app.use('/api/center-button', centerButtonRouter);
 app.use('/api/polls', pollsRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/ai', aiRouter);
 
 // Centralised error handler (e.g. multer file-too-large, JSON parse errors)
 app.use((err, req, res, next) => {
